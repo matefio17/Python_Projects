@@ -19,10 +19,10 @@ do nauki programowania — struktury danych, logiki warunkowej i obsługi wejśc
 ```bash
 git clone https://github.com/matefio17/Python_Projects
 cd Python_Projects/Python_Mini_Casino
-python main.py
+python_casino.py
 ```
 
-> Wymagany Python 3.x — brak zewnętrznych bibliotek, samo standardowe biblioteki (`random`, `time`).
+> Wymagany Python 3.x — brak zewnętrznych bibliotek, same standardowe biblioteki (`random`, `time`).
 
 ---
 
