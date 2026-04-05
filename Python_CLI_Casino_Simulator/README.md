@@ -36,7 +36,7 @@ python_cli_casino_simulator.py
 - Pętle i walidacja danych wejściowych (`while`, `input()`)
 - Struktury warunkowe (`if / elif / else`)
 - Organizacja kodu w większy program
-- 
+- Używanie modułu (`random`) do gier losowych
 
 ---
 
