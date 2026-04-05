@@ -1,6 +1,6 @@
 # README
 
-# 🎰 Mini Python Casino
+# 🎰 Python CLI Casino Simulator
 
 Konsolowa aplikacja kasynowa napisana w Pythonie jako projekt edukacyjny
 do nauki programowania — struktury danych, logiki warunkowej i obsługi wejścia użytkownika.
@@ -21,8 +21,8 @@ do nauki programowania — struktury danych, logiki warunkowej i obsługi wejśc
 
 ```bash
 git clone <https://github.com/matefio17/Python_Projects>
-cd Python_Projects/Python_Mini_Casino
-python main.py
+cd Python_Projects/Python_CLI_Casino_Simulator
+python_cli_casino_simulator.py
 ```
 
 > Wymagany Python 3.x — brak zewnętrznych bibliotek, samo standardowe biblioteki (`random`, `time`).
@@ -36,6 +36,7 @@ python main.py
 - Pętle i walidacja danych wejściowych (`while`, `input()`)
 - Struktury warunkowe (`if / elif / else`)
 - Organizacja kodu w większy program
+- 
 
 ---
 
