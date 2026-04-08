@@ -6,10 +6,11 @@ import time
 
 # --- DANE GLOBALNE ---
 
-games = {
+actions = {
     1: "Ruletka",
     2: "Poker Texas Holdem",
-    3: "Blackjack"
+    3: "Blackjack",
+    4: "Portfel"
 }
 
 roulette = {
@@ -55,12 +56,12 @@ roulette = {
 
 # --- FUNKCJE ---
 
-
-def main_menu(games):
+	# --- Główne menu i wybór gry
+def main_menu(actions):
     print("Witaj w mini Python Casino!\n")
 
-    for number, game in games.items():
-        print(f"{number}. {game}")
+    for number, action in actions.items():
+        print(f"{number}. {action}")
     print()
 
     choice = None
@@ -71,9 +72,8 @@ def main_menu(games):
             print("Dziękujemy za wizytę w kasynie!\nZapraszamy ponownie.")
             exit()
 
-        elif 1 <= user_input <= len(games):
-            choice = games.get(user_input)
-            print(f"\nWybrałeś grę: {choice}.")
+        elif 1 <= user_input <= len(actions):
+            choice = actions.get(user_input)
 
         else:
             print("\nWprowadzono nieprawidłowe dane!")
@@ -82,8 +82,56 @@ def main_menu(games):
 
 
 
+   # --- Wyświetlanie portfela            
+        
+def display_wallet(wallet):
+    print(f"Stan konta: ${wallet:.2f}\n")
+    
+    options = {1 : "Doładowanie",
+                2 : "Wypłata"
+    }
+    
+    for number, option in options.items():
+        print(f"{number}. {option}")
+    
+    # --- Doładowania i wypłaty
+    
+def wallet_actions(wallet):
+    
+    while True:
+        
+        display_wallet(wallet)
+        wallet_choice = int(input("Wybierz opcję. Aby wyjść wybierz '0': "))
+      
+        if wallet_choice == 1:
+            money_add = float(input("Wpisz kwotę doładowania: "))
+            wallet += money_add
+            print(f"Stan konta: ${wallet:.2f}")
+    
+        elif wallet_choice == 2:
+            money_back = float(input("Wpisz kwotę wypłaty: "))
+        
+            if money_back > wallet:
+            
+                print("Wypłata nieudana! Zbyt mało środków na koncie.")
+            
+            else:
+        
+                wallet -= money_back
+                print(f"Stan konta: ${wallet:.2f}")
+        
+        elif wallet_choice == 0:
+            break
+        
+        else:
+            print("Wprowadzono nieprawidłowe dane")
+    
+    
+    return wallet
 
+                    
 
+	# --- Losowanie numeru na ruletce
 def roulette_spin(roulette):
     nums = list(roulette.keys())
 
@@ -120,7 +168,7 @@ def roulette_spin(roulette):
 
 
 
-
+	# --- Ruletka 
 def play_roulette(roulette):
     red_black = "Red or Black - czerwone czy czarne?"
     even_odd = "Even or Odd - parzyste czy nieparzyste?,"
@@ -207,7 +255,7 @@ def play_roulette(roulette):
 
 
 
-
+	# --- Poker
 def play_poker():
     print("Dostępne wkrótce")
 
@@ -215,7 +263,7 @@ def play_poker():
 
 
 
-
+	# --- Blackjack
 def play_blackjack():
     print("Dostępne wkrótce")
 
@@ -225,16 +273,23 @@ def play_blackjack():
 
 
 def run_casino():
-    selected_game = main_menu(games)
+    wallet = 5.50
+    
+    while True:
+        selected_game = main_menu(actions)
 
-    if selected_game == games.get(1):
-        play_roulette(roulette)
+        if selected_game == actions.get(1):
+            play_roulette(roulette)
 
-    elif selected_game == games.get(2):
-        play_poker()
+        elif selected_game == actions.get(2):
+            play_poker()
 
-    else:
-        play_blackjack()
+        elif selected_game == actions.get(3):
+            play_blackjack()
+        
+        else:
+            wallet = wallet_actions(wallet)
+        
 
 
 # --- GŁÓWNY KOD ---
