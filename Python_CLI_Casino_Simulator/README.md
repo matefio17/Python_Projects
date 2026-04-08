@@ -43,7 +43,7 @@ python_cli_casino_simulator.py
 
 ## 🔜 Plany rozwoju
 
-- [ ]  System salda i żetonów
+- [ ]  System salda (portfel - doładowania i wypłaty)
 - [ ]  Dokończenie logiki Ruletki (zakłady, losowanie, wypłaty)
 - [ ]  Poker Texas Hold'em
 - [ ]  Blackjack
