@@ -53,32 +53,60 @@ roulette = {
     26: "black",
 }
 
+bet = 0
+wallet = 5.50
+
+
 
 # --- FUNKCJE ---
 
+    # --- Pobieranie inputu (int)
+
+def get_int_input(prompt):
+
+
+    while True:
+        int_input = input(prompt)
+        try:
+            int(int_input)
+            menu_choice = int(int_input)
+            return menu_choice
+
+        except ValueError:
+            print("Podaj poprawną liczbę!")
+
+
+    # --- Pobieranie inputu (float)
+
+def get_float_input(prompt):
+
+    while True:
+        float_input = input(prompt)
+        try:
+            float(float_input)
+            money_input = float(float_input)
+            if money_input > 0:
+                return money_input
+            else:
+                print("Kwota musi być większa od 0!")
+        except ValueError:
+            print("Podaj poprawną liczbę!")
+
+
 	# --- Główne menu i wybór gry
+
 def main_menu(actions):
     print("Witaj w mini Python Casino!\n")
-
     for number, action in actions.items():
         print(f"{number}. {action}")
     print()
 
-    choice = None
-
-    while not choice:
-        user_input = int(input("Wybierz grę wpisując liczbę do niej przypisaną np '1'. Aby wyjść wpisz '0: "))
-        if user_input == 0:
-            print("Dziękujemy za wizytę w kasynie!\nZapraszamy ponownie.")
-            exit()
-
-        elif 1 <= user_input <= len(actions):
-            choice = actions.get(user_input)
-
+    while True:
+        choice = get_int_input("Wybierz grę wpisując liczbę do niej przypisaną np '1'. Aby wyjść wpisz '0: ")
+        if 0 <= choice <= len(actions):
+            return choice
         else:
             print("\nWprowadzono nieprawidłowe dane!")
-    print()
-    return choice
 
 
 
@@ -93,41 +121,56 @@ def display_wallet(wallet):
     
     for number, option in options.items():
         print(f"{number}. {option}")
-    
+
     # --- Doładowania i wypłaty
-    
+
 def wallet_actions(wallet):
-    
     while True:
-        
         display_wallet(wallet)
-        wallet_choice = int(input("Wybierz opcję. Aby wyjść wybierz '0': "))
-      
+        wallet_choice = get_int_input("Wybierz opcję. Aby wyjść wybierz '0': ")
+
         if wallet_choice == 1:
-            money_add = float(input("Wpisz kwotę doładowania: "))
+            money_add = get_float_input("Wpisz kwotę doładowania: ")
             wallet += money_add
             print(f"Stan konta: ${wallet:.2f}")
-    
-        elif wallet_choice == 2:
-            money_back = float(input("Wpisz kwotę wypłaty: "))
-        
-            if money_back > wallet:
-            
-                print("Wypłata nieudana! Zbyt mało środków na koncie.")
-            
-            else:
-        
-                wallet -= money_back
-                print(f"Stan konta: ${wallet:.2f}")
-        
+
         elif wallet_choice == 0:
             break
-        
+
+        elif wallet_choice == 2:
+            money_back = get_float_input("Wpisz kwotę wypłaty: ")
+
+            if money_back > wallet:
+                print("Wypłata nieudana! Zbyt mało środków na koncie.")
+
+            else:
+                wallet -= money_back
+                print(f"Stan konta: ${wallet:.2f}")
+
         else:
             print("Wprowadzono nieprawidłowe dane")
-    
-    
+
+
     return wallet
+
+
+    # --- Zakłady
+
+def roulette_bets(bet, wallet):
+    bet = None
+
+    while True:
+        bet = int(input("Wpisz kwotę zakładu: "))
+        if bet > wallet:
+
+            print("Brak wystarczających środków!")
+
+        elif bet <= wallet:
+
+            print(f"Obstawiłeś ${bet}")
+            break
+
+    return bet
 
                     
 
@@ -164,7 +207,6 @@ def roulette_spin(roulette):
     color = roulette.get(draw_result)
     print(f"\n{draw_result} {color} - wygrany")
     return (draw_result, color)
-
 
 
 
@@ -242,7 +284,10 @@ def play_roulette(roulette):
                                 break
 
                             elif user_color_choice == 1:
+                                user_bet = roulette_bets(bet, wallet)
+
                                 roulette_spin(roulette)
+                                # if user_color_choice == "red":
 
             elif bet_name == "Inside bets (wysokie ryzyko, wysoka wygrana)":
                 user_bet_choice = None
@@ -270,26 +315,23 @@ def play_blackjack():
 
 
 
-
-
 def run_casino():
     wallet = 5.50
-    
-    while True:
-        selected_game = main_menu(actions)
 
-        if selected_game == actions.get(1):
-            play_roulette(roulette)
-
-        elif selected_game == actions.get(2):
-            play_poker()
-
-        elif selected_game == actions.get(3):
-            play_blackjack()
-        
-        else:
-            wallet = wallet_actions(wallet)
-        
+while True:
+    selected_game = main_menu(actions)
+    if selected_game == 1:
+        wallet = play_roulette(wallet)
+    elif selected_game == 2:
+        wallet = play_poker(wallet)
+    elif selected_game == 3:
+        wallet = play_blackjack(wallet)
+    elif selected_game == 4:
+        wallet = wallet_actions(wallet)
+    elif selected_game == 0:
+        break
+    else:
+        print("Wystąpił błąd! Spróbuj ponownie!")
 
 
 # --- GŁÓWNY KOD ---
