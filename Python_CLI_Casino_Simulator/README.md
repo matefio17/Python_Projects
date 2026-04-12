@@ -38,6 +38,7 @@ python_cli_casino_simulator.py
 - Organizacja kodu w większy program
 - Używanie modułu `random` do gier losowych
 - Modułowość i funkcje `def`
+- Obsługa błędów (`try`/`except`)
 
 ---
 
