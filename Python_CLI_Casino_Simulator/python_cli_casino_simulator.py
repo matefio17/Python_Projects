@@ -53,9 +53,30 @@ roulette = {
     26: "black",
 }
 
-bet = 0
-wallet = 5.50
+outside_bets = {
+        1: "Red or Black - czerwone czy czarne?",
+        2: "Even or Odd - parzyste czy nieparzyste?,",
+        3: "Low or High - Niskie / Wysokie (1-18 / 19-36)",
+        4: "Dozens - tuziny: (1-12), (13-24) czy (25-36)"
+}
 
+inside_bets = {
+        1: "Straight up",
+        2: "Split",
+        3: "Street",
+        4: "Corner",
+        5: "Six line"
+}
+
+bets = {
+        1: "Outside bets (niskie ryzyko, mniejsza wygrana)",
+        2: "Inside bets (wysokie ryzyko, wysoka wygrana)",
+}
+
+black_red = {
+        1: "Red",
+        2: "Black"
+}
 
 
 # --- FUNKCJE ---
@@ -122,6 +143,8 @@ def display_wallet(wallet):
     for number, option in options.items():
         print(f"{number}. {option}")
 
+
+
     # --- Doładowania i wypłaty
 
 def wallet_actions(wallet):
@@ -154,27 +177,72 @@ def wallet_actions(wallet):
     return wallet
 
 
-    # --- Zakłady
 
-def roulette_bets(bet, wallet):
-    bet = None
+
+    # --- Pobieranie danych do zakładów [IN PROGRESS]
+
+def get_roulette_bet(wallet):
 
     while True:
-        bet = int(input("Wpisz kwotę zakładu: "))
-        if bet > wallet:
 
-            print("Brak wystarczających środków!")
+        bet_amount = get_float_input("Podaj kwotę zakładu: ")
 
-        elif bet <= wallet:
+        if bet_amount > wallet:
+            print(f"Niewystarczające środki na koncie! Doładuj konto lub wpisz niższą kwotę - twoje saldo: ${wallet:.2f}")
 
-            print(f"Obstawiłeś ${bet}")
+        else:
             break
 
-    return bet
+    for number, name in bets.items():
+        print(f"{number}. {name}")
+    print()
 
-                    
+    while True:
+        bet_choice = get_int_input("Wybierz typ zakładu: \n")
+
+        if bet_choice == 0:
+            break
+
+        elif 1 <= bet_choice <= len(bets):
+            break
+
+    outside_bet_choice = None
+    inside_bet_choice = None
+    color_choice = None
+
+    if bet_choice == 1:
+
+        for number, name in outside_bets.items():
+            print(f"{number}. {name}")
+        print()
+
+        outside_bet_choice = get_int_input("Wybierz typ zakładu: \n")
+
+        if outside_bet_choice == 1:
+
+            for number, name in black_red.items():
+                print(f"{number}. {name}")
+            print()
+
+            color_choice = get_int_input("Wybierz kolor: \n")
+
+
+    elif bet_choice == 2:
+
+        for number, name in inside_bets.items():
+            print(f"{number}. {name}")
+        print()
+
+        inside_bet_choice = get_int_input("Wybierz typ zakładu: \n")
+
+    return (bet_amount, bet_choice, outside_bet_choice, color_choice, inside_bet_choice)
+
+
+
+
 
 	# --- Losowanie numeru na ruletce
+
 def roulette_spin(roulette):
     nums = list(roulette.keys())
 
@@ -210,107 +278,24 @@ def roulette_spin(roulette):
 
 
 
-	# --- Ruletka 
-def play_roulette(roulette):
-    red_black = "Red or Black - czerwone czy czarne?"
-    even_odd = "Even or Odd - parzyste czy nieparzyste?,"
-    low_high = "Low or High - Niskie / Wysokie (1-18 / 19-36)"
-    dozens = "Dozens - tuziny: (1-12), (13-24) czy (25-36)"
-
-    outside_bets = {
-        1: red_black,
-        2: even_odd,
-        3: low_high,
-        4: dozens
-    }
-
-    inside_bets = ["Straight up", "Split", "Street", "Corner", "Six line"]
-
-    bets = {
-        1: "Outside bets (niskie ryzyko, mniejsza wygrana)",
-        2: "Inside bets (wysokie ryzyko, wysoka wygrana)",
-    }
-
-    black_red = {
-        1: "Red",
-        2: "Black"
-    }
-
-    print("Witaj w Ruletce!\nWybierz rodzaj zakładu:")
-    print()
-
-    for counter, name in bets.items():
-        print(f"{counter}. {name}")
-    print()
-
-    user_choice = None
-
-    while not user_choice:
-        user_choice = int(input("Wybierz wpisując numer np. '1'. Aby wstać od stołu wpisz '0': "))
-        if user_choice == 0:
-            print("Zapraszamy ponownie.")
-            break
-
-        elif 1 <= user_choice <= len(bets):
-            bet_name = bets.get(user_choice)
-
-            if bet_name == "Outside bets (niskie ryzyko, mniejsza wygrana)":
-                user_bet_choice = None
-
-                for number_1, details in outside_bets.items():
-                    print(f"{number_1}. {details}")
-                print()
-
-                while not user_bet_choice:
-                    user_bet_choice = int(input("Wybierz wpisując numer np. '1'. Aby powrócić do wyboru zakładów wpisz '0': "))
-
-                    if user_bet_choice == 0:
-                        print("Zapraszamy ponownie.")
-                        break
-
-                    elif user_bet_choice == 1:
-
-                        for number_2, details in black_red.items():
-                            print(f"{number_2}. {details}")
-                        print()
-
-                        user_color_choice = None
-
-                        while not user_color_choice:
-                            user_color_choice = int(input("Wybierz wpisując numer np. '1'. Aby powrócić do wyboru zakładów wpisz '0': "))
-
-                            if user_color_choice == 0:
-                                print("Zapraszamy ponownie.")
-                                break
-
-                            elif user_color_choice == 1:
-                                user_bet = roulette_bets(bet, wallet)
-
-                                roulette_spin(roulette)
-                                # if user_color_choice == "red":
-
-            elif bet_name == "Inside bets (wysokie ryzyko, wysoka wygrana)":
-                user_bet_choice = None
-
-        else:
-            print("\nWprowadzono nieprawidłowe dane!")
-    print()
+	# --- Ruletka [IN PROGRESS]
+def play_roulette(wallet):
+    pass
 
 
-
-
-
-	# --- Poker
-def play_poker():
+	# --- Poker [IN PROGRESS]
+def play_poker(wallet):
     print("Dostępne wkrótce")
+    return wallet
 
 
 
 
 
-	# --- Blackjack
-def play_blackjack():
+	# --- Blackjack [IN PROGRESS]
+def play_blackjack(wallet):
     print("Dostępne wkrótce")
+    return wallet
 
 
 
@@ -318,20 +303,26 @@ def play_blackjack():
 def run_casino():
     wallet = 5.50
 
-while True:
-    selected_game = main_menu(actions)
-    if selected_game == 1:
-        wallet = play_roulette(wallet)
-    elif selected_game == 2:
-        wallet = play_poker(wallet)
-    elif selected_game == 3:
-        wallet = play_blackjack(wallet)
-    elif selected_game == 4:
-        wallet = wallet_actions(wallet)
-    elif selected_game == 0:
-        break
-    else:
-        print("Wystąpił błąd! Spróbuj ponownie!")
+    while True:
+        selected_game = main_menu(actions)
+
+        if selected_game == 1:
+            wallet = play_roulette(wallet)
+
+        elif selected_game == 2:
+            wallet = play_poker(wallet)
+
+        elif selected_game == 3:
+            wallet = play_blackjack(wallet)
+
+        elif selected_game == 4:
+            wallet = wallet_actions(wallet)
+
+        elif selected_game == 0:
+            break
+
+        else:
+            print("Wystąpił błąd! Spróbuj ponownie!")
 
 
 # --- GŁÓWNY KOD ---
