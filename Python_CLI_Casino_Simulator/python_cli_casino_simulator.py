@@ -3,7 +3,6 @@
 import random
 import time
 
-
 # --- DANE GLOBALNE ---
 
 actions = {
@@ -50,32 +49,49 @@ roulette = {
     12: "red",
     35: "black",
     3: "red",
-    26: "black",
+    26: "black"
 }
 
 outside_bets = {
-        1: "Red or Black - czerwone czy czarne?",
-        2: "Even or Odd - parzyste czy nieparzyste?,",
-        3: "Low or High - Niskie / Wysokie (1-18 / 19-36)",
-        4: "Dozens - tuziny: (1-12), (13-24) czy (25-36)"
+    1: "Red or Black - czerwone czy czarne?",
+    2: "Even or Odd - parzyste czy nieparzyste?,",
+    3: "Low or High - Niskie / Wysokie (1-18 / 19-36)",
+    4: "Dozens - tuziny: (1-12), (13-24) czy (25-36)"
 }
 
 inside_bets = {
-        1: "Straight up",
-        2: "Split",
-        3: "Street",
-        4: "Corner",
-        5: "Six line"
+    1: "Straight up",
+    2: "Split",
+    3: "Street",
+    4: "Corner",
+    5: "Six line",
+    6: "Green"
 }
 
 bets = {
-        1: "Outside bets (niskie ryzyko, mniejsza wygrana)",
-        2: "Inside bets (wysokie ryzyko, wysoka wygrana)",
+    1: "Outside bets (niskie ryzyko, mniejsza wygrana)",
+    2: "Inside bets (wysokie ryzyko, wysoka wygrana)",
 }
 
 black_red = {
-        1: "Red",
-        2: "Black"
+    1: "Red (czerwone)",
+    2: "Black (czarne)"
+}
+
+even_odd = {
+    1: "Even (parzyste)",
+    2: "Odd (nieparzyste)"
+}
+
+low_high = {
+    1: "Low (1-18)",
+    2: "High (19-36)"
+}
+
+dozens = {
+    1: "Tuzin pierwszy (1-12)",
+    2: "Tuzin drugi (13-24)",
+    3: "Tuzin trzeci (25-36)"
 }
 
 
@@ -84,8 +100,6 @@ black_red = {
     # --- Pobieranie inputu (int)
 
 def get_int_input(prompt):
-
-
     while True:
         int_input = input(prompt)
         try:
@@ -97,10 +111,11 @@ def get_int_input(prompt):
             print("Podaj poprawną liczbę!")
 
 
+
     # --- Pobieranie inputu (float)
 
-def get_float_input(prompt):
 
+def get_float_input(prompt):
     while True:
         float_input = input(prompt)
         try:
@@ -114,7 +129,10 @@ def get_float_input(prompt):
             print("Podaj poprawną liczbę!")
 
 
-	# --- Główne menu i wybór gry
+
+
+    # --- Główne menu i wybór gry
+
 
 def main_menu(actions):
     print("Witaj w mini Python Casino!\n")
@@ -130,19 +148,19 @@ def main_menu(actions):
             print("\nWprowadzono nieprawidłowe dane!")
 
 
+    # --- Wyświetlanie portfela
 
-   # --- Wyświetlanie portfela            
-        
 def display_wallet(wallet):
     print(f"Stan konta: ${wallet:.2f}\n")
-    
-    options = {1 : "Doładowanie",
-                2 : "Wypłata"
+
+    options = {
+        1: "Doładowanie",
+        2: "Wypłata"
     }
-    
+
     for number, option in options.items():
         print(f"{number}. {option}")
-
+        print()
 
 
     # --- Doładowania i wypłaty
@@ -151,9 +169,10 @@ def wallet_actions(wallet):
     while True:
         display_wallet(wallet)
         wallet_choice = get_int_input("Wybierz opcję. Aby wyjść wybierz '0': ")
+        print()
 
         if wallet_choice == 1:
-            money_add = get_float_input("Wpisz kwotę doładowania: ")
+            money_add = get_float_input("Wpisz kwotę doładowania: $")
             wallet += money_add
             print(f"Stan konta: ${wallet:.2f}")
 
@@ -161,7 +180,7 @@ def wallet_actions(wallet):
             break
 
         elif wallet_choice == 2:
-            money_back = get_float_input("Wpisz kwotę wypłaty: ")
+            money_back = get_float_input("Wpisz kwotę wypłaty: $")
 
             if money_back > wallet:
                 print("Wypłata nieudana! Zbyt mało środków na koncie.")
@@ -173,32 +192,21 @@ def wallet_actions(wallet):
         else:
             print("Wprowadzono nieprawidłowe dane")
 
-
     return wallet
-
-
 
 
     # --- Pobieranie danych do zakładów [IN PROGRESS]
 
 def get_roulette_bet(wallet):
-
-    while True:
-
-        bet_amount = get_float_input("Podaj kwotę zakładu: ")
-
-        if bet_amount > wallet:
-            print(f"Niewystarczające środki na koncie! Doładuj konto lub wpisz niższą kwotę - twoje saldo: ${wallet:.2f}")
-
-        else:
-            break
+    bet_amount = 0
+    bet_choice = 0
 
     for number, name in bets.items():
         print(f"{number}. {name}")
     print()
 
     while True:
-        bet_choice = get_int_input("Wybierz typ zakładu: \n")
+        bet_choice = get_int_input("Wybierz typ zakładu: ")
 
         if bet_choice == 0:
             break
@@ -209,6 +217,9 @@ def get_roulette_bet(wallet):
     outside_bet_choice = None
     inside_bet_choice = None
     color_choice = None
+    even_odd_choice = None
+    low_high_choice = None
+    dozens_choice = None
 
     if bet_choice == 1:
 
@@ -216,7 +227,7 @@ def get_roulette_bet(wallet):
             print(f"{number}. {name}")
         print()
 
-        outside_bet_choice = get_int_input("Wybierz typ zakładu: \n")
+        outside_bet_choice = get_int_input("Wybierz typ zakładu: ")
 
         if outside_bet_choice == 1:
 
@@ -224,7 +235,31 @@ def get_roulette_bet(wallet):
                 print(f"{number}. {name}")
             print()
 
-            color_choice = get_int_input("Wybierz kolor: \n")
+            color_choice = get_int_input("Wybierz kolor: ")
+
+        elif outside_bet_choice == 2:
+
+            for number, name in even_odd.items():
+                print(f"{number}. {name}")
+            print()
+
+            even_odd_choice = get_int_input("Wybierz - parzyste/nieparzyste: ")
+
+        elif outside_bet_choice == 3:
+
+            for number, name in low_high.items():
+                print(f"{number}. {name}")
+            print()
+
+            low_high_choice = get_int_input("Wybierz - niskie/wysokie: ")
+
+        else:
+
+            for number, name in dozens.items():
+                print(f"{number}. {name}")
+            print()
+
+            dozens_choice = get_int_input("Wybierz tuzin: ")
 
 
     elif bet_choice == 2:
@@ -233,15 +268,31 @@ def get_roulette_bet(wallet):
             print(f"{number}. {name}")
         print()
 
-        inside_bet_choice = get_int_input("Wybierz typ zakładu: \n")
+        inside_bet_choice = get_int_input("Wybierz typ zakładu: ")
 
-    return (bet_amount, bet_choice, outside_bet_choice, color_choice, inside_bet_choice)
+    while True:
+
+        bet_amount = get_float_input("Podaj kwotę zakładu: $")
+
+        if bet_amount > wallet:
+            print(
+                f"Niewystarczające środki na koncie! Doładuj konto lub wpisz niższą kwotę - twoje saldo: ${wallet:.2f}")
+
+        else:
+            break
+
+    return (bet_amount,
+            bet_choice,
+            outside_bet_choice,
+            color_choice,
+            even_odd_choice,
+            low_high_choice,
+            dozens_choice,
+            inside_bet_choice,
+    )
 
 
-
-
-
-	# --- Losowanie numeru na ruletce
+    # --- Losowanie numeru na ruletce
 
 def roulette_spin(roulette):
     nums = list(roulette.keys())
@@ -256,7 +307,7 @@ def roulette_spin(roulette):
     while is_running:
         x = nums[current_pos % len(nums)]
         time.sleep(delay)
-        print(f"\r---[{x}]---", end="")
+        print(f"---[{x}]---")
 
         if delay <= 0.1:
             delay *= random.uniform(1.02, 1.04)
@@ -272,32 +323,226 @@ def roulette_spin(roulette):
         current_pos += 1
     print()
 
-    color = roulette.get(draw_result)
-    print(f"\n{draw_result} {color} - wygrany")
-    return (draw_result, color)
+    draw_color = roulette.get(draw_result)
+    print(f"{draw_result} {draw_color}")
+    print()
+    return (draw_result, draw_color)
+
+
+    # --- Ocena zakładu red/black
+
+def evaluate_red_black(color_choice, draw_color, bet_amount):
+    if color_choice == 1:
+        if draw_color == "red":
+            print(f"WYGRANA! +${bet_amount}")
+            print()
+            return bet_amount
+
+        elif draw_color == "black":
+            print(f"PORAŻKA -${bet_amount}")
+            print()
+            return -bet_amount
+
+        else:
+            print(f"PORAŻKA - GREEN!!! -${bet_amount}")
+            print()
+            return -bet_amount
 
 
 
-	# --- Ruletka [IN PROGRESS]
+    else:
+
+        if draw_color == "black":
+            print(f"WYGRANA! +${bet_amount}")
+            print()
+            return bet_amount
+
+        elif draw_color == "red":
+            print(f"PORAŻKA -${bet_amount}")
+            print()
+            return -bet_amount
+
+        else:
+            print(f"PORAŻKA - GREEN!!! -${bet_amount}")
+            print()
+            return -bet_amount
+
+
+
+
+    # --- Ocena zakładu even/odd
+
+def evaluate_even_odd(even_odd_choice, draw_result, bet_amount):
+
+    if draw_result == 0:
+        print(f"PORAŻKA - GREEN!!! -${bet_amount}")
+        print()
+        return -bet_amount
+
+
+    elif even_odd_choice == 1:
+        if draw_result % 2 == 0:
+            print(f"WYGRANA! +${bet_amount}")
+            print()
+            return bet_amount
+
+        else:
+            print(f"PORAŻKA -${bet_amount}")
+            print()
+            return -bet_amount
+
+    else:
+        if draw_result % 2 != 0:
+            print(f"WYGRANA! +${bet_amount}")
+            print()
+            return bet_amount
+
+        else:
+            print(f"PORAŻKA -${bet_amount}")
+            print()
+            return -bet_amount
+
+    # --- Ocena zakładu low/high
+
+def evaluate_low_high(low_high_choice, draw_result, bet_amount):
+
+    if draw_result == 0:
+        print(f"PORAŻKA - GREEN!!! -${bet_amount}")
+        print()
+        return -bet_amount
+
+
+    elif low_high_choice == 1:
+
+        if 1 <= draw_result <= 18:
+            print(f"WYGRANA! +${bet_amount}")
+            print()
+            return bet_amount
+
+        else:
+            print(f"PORAŻKA -${bet_amount}")
+            print()
+            return -bet_amount
+
+    else:
+
+        if 19 <= draw_result <= 36:
+            print(f"WYGRANA! +${bet_amount}")
+            print()
+            return bet_amount
+
+        else:
+            print(f"PORAŻKA -${bet_amount}")
+            print()
+            return -bet_amount
+
+    # --- Ocena zakładu dozens
+
+def evaluate_dozens(dozens_choice, draw_result, bet_amount):
+
+    if draw_result == 0:
+        print(f"PORAŻKA - GREEN!!! -${bet_amount}")
+        print()
+        return -bet_amount
+
+
+    elif dozens_choice == 1:
+
+        if 1 <= draw_result <= 12:
+            print(f"WYGRANA! +${bet_amount}")
+            print()
+            return bet_amount
+
+        else:
+            print(f"PORAŻKA -${bet_amount}")
+            print()
+            return -bet_amount
+
+    elif dozens_choice == 2:
+
+        if 13 <= draw_result <= 24:
+            print(f"WYGRANA! +${bet_amount}")
+            print()
+            return bet_amount
+
+        else:
+            print(f"PORAŻKA -${bet_amount}")
+            print()
+            return -bet_amount
+
+    else:
+
+        if 25 <= draw_result <= 36:
+            print(f"WYGRANA! +${bet_amount}")
+            print()
+            return bet_amount
+
+        else:
+            print(f"PORAŻKA -${bet_amount}")
+            print()
+            return -bet_amount
+
+
+
+
+    # --- Ocena wyniku losowania/zakładu (ruletka) ROUTER
+def evaluate_roulette_bet(bet_data, spin_result):
+    bet_amount, bet_choice, outside_bet_choice, color_choice, even_odd_choice, low_high_choice, dozens_choice, inside_bet_choice = bet_data
+    draw_result, draw_color = spin_result
+
+    if bet_choice == 1:
+
+        if outside_bet_choice == 1:
+            return evaluate_red_black(color_choice, draw_color, bet_amount)
+
+        elif outside_bet_choice == 2:
+            return evaluate_even_odd(even_odd_choice, draw_result, bet_amount)
+
+        elif outside_bet_choice == 3:
+            return evaluate_low_high(low_high_choice, draw_result, bet_amount)
+
+        else:
+            return evaluate_dozens(dozens_choice, draw_result, bet_amount)
+
+    else:
+
+        if inside_bet_choice == 1:
+            pass
+        elif inside_bet_choice == 2:
+            pass
+        elif inside_bet_choice == 3:
+            pass
+        elif inside_bet_choice == 4:
+            pass
+        elif inside_bet_choice == 5:
+            pass
+        else:
+            pass
+
+    # --- Ruletka [IN PROGRESS]
+
+
 def play_roulette(wallet):
-    pass
+    bet_data = get_roulette_bet(wallet)
+    if bet_data[1] == 0:
+        return wallet
+
+    spin_result = roulette_spin(roulette)
+    result = evaluate_roulette_bet(bet_data, spin_result)
+    wallet += result
+    return wallet
 
 
-	# --- Poker [IN PROGRESS]
+# --- Poker [IN PROGRESS]
 def play_poker(wallet):
     print("Dostępne wkrótce")
     return wallet
 
 
-
-
-
-	# --- Blackjack [IN PROGRESS]
+# --- Blackjack [IN PROGRESS]
 def play_blackjack(wallet):
     print("Dostępne wkrótce")
     return wallet
-
-
 
 
 def run_casino():
