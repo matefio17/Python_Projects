@@ -96,23 +96,54 @@ dozens = {
 }
 
 #POGLĄDOWE!
-roulette_table = [
-	  [""],
-    ["             \U0001f7e9 0 \U0001f7e9         "],
-    ["  \U0001f7e5 1 \U0001f7e5   \u2b1b 2 \u2b1b    \U0001f7e5 3 \U0001f7e5  "],
-    ["  \u2b1b 4 \u2b1b   \U0001f7e5 5 \U0001f7e5    \u2b1b 6 \u2b1b  "],
-    ["  \U0001f7e5 7 \U0001f7e5   \u2b1b 8 \u2b1b    \U0001f7e5 9 \U0001f7e5  "],
-    [" \u2b1b 10 \u2b1b ", " \u2b1b 11 \u2b1b ", " \U0001f7e5 12 \U0001f7e5 "],
-    [" \u2b1b 13 \u2b1b ", " \U0001f7e5 14 \U0001f7e5 ", " \u2b1b 15 \u2b1b "],
-    [" \U0001f7e5 16 \U0001f7e5 ", " \u2b1b 17 \u2b1b ", " \U0001f7e5 18 \U0001f7e5 "],
-    [" \U0001f7e5 19 \U0001f7e5 ", " \u2b1b 20 \u2b1b ", " \U0001f7e5 21 \U0001f7e5 "],
-    [" \u2b1b 22 \u2b1b ", " \U0001f7e5 23 \U0001f7e5 ", " \u2b1b 24 \u2b1b "],
-    [" \U0001f7e5 25 \U0001f7e5 ", " \u2b1b 26 \u2b1b ", " \U0001f7e5 27 \U0001f7e5 "],
-    [" \u2b1b 28 \u2b1b ", " \u2b1b 29 \u2b1b ", " \U0001f7e5 30 \U0001f7e5 "],
-    [" \u2b1b 31 \u2b1b ", " \U0001f7e5 32 \U0001f7e5 ", " \u2b1b 33 \u2b1b "],
-    [" \U0001f7e5 34 \U0001f7e5 ", " \u2b1b 35 \u2b1b ", " \U0001f7e5 36 \U0001f7e5 "],
-    [""]
-]
+
+
+def roulette_table():
+    # Definicje kolorów ANSI -> Uncomment for colored nums
+    R =  "" # "\033[91m"  # Czerwony
+    G = "" # "\033[92m"  # Zielony
+    B = "" # "\033[90m"  # Ciemnoszary 
+    RS = "" # "\033[0m"   # Reset kolorów
+
+    nums = {
+        0: f"{G} 0{RS}",
+        1: f"{R} 1{RS}", 2: f"{B} 2{RS}", 3: f"{R} 3{RS}",
+        4: f"{B} 4{RS}", 5: f"{R} 5{RS}", 6: f"{B} 6{RS}",
+        7: f"{R} 7{RS}", 8: f"{B} 8{RS}", 9: f"{R} 9{RS}",
+        10: f"{B}10{RS}", 11: f"{B}11{RS}", 12: f"{R}12{RS}",
+        13: f"{B}13{RS}", 14: f"{R}14{RS}", 15: f"{B}15{RS}",
+        16: f"{R}16{RS}", 17: f"{B}17{RS}", 18: f"{R}18{RS}",
+        19: f"{R}19{RS}", 20: f"{B}20{RS}", 21: f"{R}21{RS}",
+        22: f"{B}22{RS}", 23: f"{R}23{RS}", 24: f"{B}24{RS}",
+        25: f"{R}25{RS}", 26: f"{B}26{RS}", 27: f"{R}27{RS}",
+        28: f"{B}28{RS}", 29: f"{B}29{RS}", 30: f"{R}30{RS}",
+        31: f"{B}31{RS}", 32: f"{R}32{RS}", 33: f"{B}33{RS}",
+        34: f"{R}34{RS}", 35: f"{B}35{RS}", 36: f"{R}36{RS}"
+    }
+
+    print("  ┌─────────────────┐")
+    print(f"  │       {nums[0]}        │")
+
+    print("  ├─────┬─────┬─────┤")
+    
+      
+    for x in range(1, 37):
+        print(f"  │ {nums[x]}"  , end="")
+            
+        
+        if x % 3 == 0:
+            row = x // 3
+        	
+            print(f"  │ <- Rząd nr {row}")
+            
+                
+            if x < 36:
+                print("  ├─────┼─────┼─────┤")
+                    
+            elif x == 36:
+                print("  └─────┴─────┴─────┘")
+        
+    print()
 
 
 
@@ -149,6 +180,33 @@ def get_float_input(prompt):
         except ValueError:
             print("Podaj poprawną liczbę!")
 
+
+   # --- Pobieranie imputu (list) DO NAPRAWY
+   
+def get_list_input(prompt):
+    while True:
+        	
+        try:
+            user_input = input(prompt)
+            list_input = user_input.split(",")
+            
+            for x in list_input:
+                if x in range(0, 36):
+                    continue
+                elif len(list_input) == 4:
+                    return list_input
+                
+            
+                else:
+                    print("Podaj poprawną wartość!")
+            	
+        except ValueError:
+            print("Podaj poprawną wartość̨!")
+        
+         
+                               	
+        	
+        
 
 
 
@@ -309,35 +367,35 @@ def get_roulette_bet(wallet):
         print()
         
         if inside_bet_choice == 1:
-            table(roulette_table)
+            roulette_table()
             
             straight_up_choice = get_int_input("Podaj numer pola na który obstawiasz: ")
                 
         	
         elif inside_bet_choice == 2:
-            table(roulette_table)
+            roulette_table()
             
             split_choice = get_list_input("Obstaw dwa sąsiadujące numery. Oddzial cyfry przecinkiem np. '2, 5': ")
         	
         elif inside_bet_choice == 3:
-            table(roulette_table)
+            roulette_table()
             # DODAJ NUMERY RZĘDÓW
-            # DODAJ FUNKCJE OBSŁUGUJĄCĄ LIST INPUT
+            
             
             street_choice = get_int_input("Obstaw jeden z poziomych rzędów: ")
         	
         elif inside_bet_choice == 4:
-            table(roulette_table)
+            roulette_table()
             
             corner_choice = get_list_input("Obstaw cztery sąsiadujące numery. Oddzial cyfry przecinkiem np. '1, 2, 4, 5': ")
         	
         elif inside_bet_choice == 5:
-            table(roulette_table)
+            roulette_table()
             
             six_line_choice = get_list_input("Obstaw dwa sąsiadujące poziomy. Podaj numery poziomów Oddzial cyfry przecinkiem np. '1, 2': ")
         	
         elif inside_bet_choice == 6:
-            table(roulette_table)
+            roulette_table()
             
             green_choice = get_int_input("Aby obstawić na zero wpisz '1': ")
         
@@ -385,7 +443,7 @@ def roulette_spin(roulette):
     while is_running:
         x = nums[current_pos % len(nums)]
         time.sleep(delay)
-        print(f"---[{x}]---")
+        print(f"\r---[{x}]---", end="")
 
         if delay <= 0.1:
             delay *= random.uniform(1.02, 1.04)
