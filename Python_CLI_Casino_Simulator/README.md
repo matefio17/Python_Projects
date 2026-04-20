@@ -1,57 +1,82 @@
-# README
-
 # 🎰 Python CLI Casino Simulator
 
 Konsolowa aplikacja kasynowa napisana w Pythonie jako projekt edukacyjny
-do nauki programowania — struktury danych, logiki warunkowej i obsługi wejścia użytkownika.
+do nauki programowania — logiki aplikacji, walidacji danych oraz budowy większych systemów CLI.
 
 ---
 
 ## 🎮 Dostępne gry
 
-| Gra | Status |
-| --- | --- |
-| 🎡 Ruletka | ✅ W budowie |
-| 🃏 Poker Texas Hold'em | 🔜 Wkrótce |
-| 🂱 Blackjack | 🔜 Wkrótce |
+| Gra                    | Status                   |
+| ---------------------- | ------------------------ |
+| 🎡 Ruletka             | ✅ Ukończona (end-to-end) |
+| 🃏 Poker Texas Hold'em | 🔜 Wkrótce               |
+| 🂱 Blackjack           | 🔜 Wkrótce               |
+
+---
+
+## 🎯 Ruletka — funkcjonalności
+
+Ruletka została zaimplementowana w pełni end-to-end:
+
+* ✔️ pełny flow użytkownika (menu → wybór zakładu → spin → wynik → update portfela)
+* ✔️ system portfela (saldo, wpłaty, wypłaty)
+* ✔️ walidacja danych wejściowych (int, float, listy, zakresy, edge case’y)
+* ✔️ animacja spinu ruletki (efekt zwalniania)
+
+### 🟥 Outside bets:
+
+* Red / Black
+* Even / Odd
+* Low / High (1–18 / 19–36)
+* Dozens (1–12 / 13–24 / 25–36)
+
+### 🎯 Inside bets:
+
+* Straight up
+* Split
+* Street
+* Corner
+* Six line
 
 ---
 
 ## 🚀 Uruchomienie
 
 ```bash
-git clone <https://github.com/matefio17/Python_Projects>
+git clone https://github.com/matefio17/Python_Projects
 cd Python_Projects/Python_CLI_Casino_Simulator
-python_cli_casino_simulator.py
+python python_cli_casino_simulator.py
 ```
 
-> Wymagany Python 3.x — brak zewnętrznych bibliotek, samo standardowe biblioteki (`random`, `time`).
-> 
+> Wymagany Python 3.x — projekt korzysta wyłącznie ze standardowych bibliotek (`random`, `time`).
 
 ---
 
-## 📚 Czego się uczę przy tym projekcie
+## 📚 Czego się nauczyłem
 
-- Słowniki i iteracja po nich (`dict`, `items()`)
-- Pętle i walidacja danych wejściowych (`while`, `input()`)
-- Struktury warunkowe (`if / elif / else`)
-- Organizacja kodu w większy program
-- Używanie modułu `random` do gier losowych
-- Modułowość i funkcje `def`
-- Obsługa błędów (`try`/`except`)
+* budowy pełnego flow aplikacji CLI
+* zarządzania stanem (wallet, przebieg gry)
+* implementacji logiki domenowej (zasady ruletki i typy zakładów)
+* walidacji danych wejściowych (defensive programming)
+* pracy ze strukturami danych (`dict`, listy, mapowania)
+* rozbijania problemu na mniejsze funkcje i modularny kod
+* obsługi edge case’ów i debugowania logiki
+* refaktoryzacji kodu (przejście od „spaghetti code” do czytelniejszej struktury)
 
 ---
 
 ## 🔜 Plany rozwoju
 
-- [x]  System salda (portfel - doładowania i wypłaty)
-- [ ]  Dokończenie logiki Ruletki (zakłady, losowanie, wypłaty)
-- [ ]  Poker Texas Hold'em
-- [ ]  Blackjack
-- [ ]  Podział na osobne pliki (`roulette.py`, `blackjack.py`)
+* [x] System salda (portfel - doładowania i wypłaty)
+* [x] Pełna implementacja ruletki (zakłady, logika, wypłaty)
+* [ ] Refaktoryzacja (m.in. lepsza struktura danych, dispatch logic)
+* [ ] Poker Texas Hold'em
+* [ ] Blackjack
+* [ ] Podział projektu na moduły (`roulette.py`, `blackjack.py`, itd.)
 
 ---
 
 ## 👨‍💻 Autor
 
-**matefio17** — projekt w trakcie nauki Pythona
+**matefio17** — projekt realizowany w ramach nauki Pythona i przygotowania do pracy w IT (Python / IT Support / Sysadmin)

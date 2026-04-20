@@ -60,11 +60,19 @@ outside_bets = {
 }
 
 inside_bets = {
+<<<<<<< HEAD
     1: "Straight up - konkretny numer",
     2: "Split - dwa sąsiadujące numery",
     3: "Street - trzy liczby w jedym rzędzie poziomym",
     4: "Corner - cztery numery stykające się rogami",
     5: "Six line - dwa sąsiednie poziome rzędy",
+=======
+    1: "Straight up",
+    2: "Split",
+    3: "Street",
+    4: "Corner",
+    5: "Six line",
+>>>>>>> 2eb6322d106bdbd8f5d67e5d9820af9d22eea665
 }
 
 bets = {
@@ -93,6 +101,58 @@ dozens = {
     3: "Tuzin trzeci (25-36)"
 }
 
+<<<<<<< HEAD
+=======
+#POGLĄDOWE!
+
+
+def roulette_table():
+    # Definicje kolorów ANSI -> Uncomment for colored nums
+    R =  "" # "\033[91m"  # Czerwony
+    G = "" # "\033[92m"  # Zielony
+    B = "" # "\033[90m"  # Ciemnoszary 
+    RS = "" # "\033[0m"   # Reset kolorów
+
+    nums = {
+        0: f"{G} 0{RS}",
+        1: f"{R} 1{RS}", 2: f"{B} 2{RS}", 3: f"{R} 3{RS}",
+        4: f"{B} 4{RS}", 5: f"{R} 5{RS}", 6: f"{B} 6{RS}",
+        7: f"{R} 7{RS}", 8: f"{B} 8{RS}", 9: f"{R} 9{RS}",
+        10: f"{B}10{RS}", 11: f"{B}11{RS}", 12: f"{R}12{RS}",
+        13: f"{B}13{RS}", 14: f"{R}14{RS}", 15: f"{B}15{RS}",
+        16: f"{R}16{RS}", 17: f"{B}17{RS}", 18: f"{R}18{RS}",
+        19: f"{R}19{RS}", 20: f"{B}20{RS}", 21: f"{R}21{RS}",
+        22: f"{B}22{RS}", 23: f"{R}23{RS}", 24: f"{B}24{RS}",
+        25: f"{R}25{RS}", 26: f"{B}26{RS}", 27: f"{R}27{RS}",
+        28: f"{B}28{RS}", 29: f"{B}29{RS}", 30: f"{R}30{RS}",
+        31: f"{B}31{RS}", 32: f"{R}32{RS}", 33: f"{B}33{RS}",
+        34: f"{R}34{RS}", 35: f"{B}35{RS}", 36: f"{R}36{RS}"
+    }
+
+    print("  ┌─────────────────┐")
+    print(f"  │       {nums[0]}        │")
+
+    print("  ├─────┬─────┬─────┤")
+    
+      
+    for x in range(1, 37):
+        print(f"  │ {nums[x]}"  , end="")
+            
+        
+        if x % 3 == 0:
+            row = x // 3
+        	
+            print(f"  │ <- Rząd nr {row}")
+            
+                
+            if x < 36:
+                print("  ├─────┼─────┼─────┤")
+                    
+            elif x == 36:
+                print("  └─────┴─────┴─────┘")
+        
+    print()
+>>>>>>> 2eb6322d106bdbd8f5d67e5d9820af9d22eea665
 
 nums_rows_map = {
     1: [1, 2, 3],
@@ -187,7 +247,28 @@ def get_float_input(prompt):
             print("Podaj poprawną liczbę!")
 
 
+<<<<<<< HEAD
 # --- Pobieranie imputu (list)
+=======
+   # --- Pobieranie imputu (list) 
+   
+def get_list_input(prompt):
+    while True:
+        user_input = input(prompt)
+        list_input = user_input.split()
+        list_input_checked = []
+        try:
+            for x in list_input:
+                num = int(x)
+                list_input_checked.append(num)
+            
+            return list_input_checked
+            
+        except ValueError:
+            print("Podaj poprawne wartości!")
+        
+         
+>>>>>>> 2eb6322d106bdbd8f5d67e5d9820af9d22eea665
 
 def get_list_input(prompt):
     while True:
@@ -362,6 +443,7 @@ def get_roulette_bet(wallet):
         if inside_bet_choice == 1:
             roulette_table()
 
+<<<<<<< HEAD
             while True:
 
                 straight_up_choice = get_int_input("Podaj numer pola na który obstawiasz: ")
@@ -445,6 +527,41 @@ def get_roulette_bet(wallet):
 
                     print("Podaj poprawne wartości! Upewnij się, że rzędy na które obstawiasz są między 1 i 12!")
 
+=======
+            straight_up_choice = get_int_input("Podaj numer pola na który obstawiasz: ")
+                
+                
+                    
+                
+        	
+        elif inside_bet_choice == 2:
+            roulette_table()
+            
+            
+            split_choice = get_list_input("Obstaw dwa sąsiadujące numery. Oddzial cyfry spacją np. '2 5': ")
+            
+                
+                    
+        	
+        elif inside_bet_choice == 3:
+            roulette_table()
+         
+            
+            
+            street_choice = get_int_input("Obstaw jeden z poziomych rzędów: ")
+        	
+        elif inside_bet_choice == 4:
+            roulette_table()
+            
+            corner_choice = get_list_input("Obstaw cztery sąsiadujące numery. Oddzial cyfry spacją np. '1 2 4 5': ")
+        	
+        elif inside_bet_choice == 5:
+            roulette_table()
+            
+            six_line_choice = get_list_input("Obstaw dwa sąsiadujące poziomy. Podaj numery poziomów Oddzial cyfry spacją np. '1 2': ")
+        	
+        
+>>>>>>> 2eb6322d106bdbd8f5d67e5d9820af9d22eea665
 
     while True:
 
@@ -458,6 +575,7 @@ def get_roulette_bet(wallet):
             break
 
     return {
+<<<<<<< HEAD
         "bet_amount": bet_amount,
         "bet_choice": bet_choice,
         "outside_bet_choice": outside_bet_choice,
@@ -471,6 +589,21 @@ def get_roulette_bet(wallet):
         "street_choice": street_choice,
         "corner_choice": corner_choice,
         "six_line_choice": six_line_choice,
+=======
+    				"bet_amount": bet_amount,
+            "bet_choice": bet_choice,
+            "outside_bet_choice": outside_bet_choice,
+            "color_choice": color_choice,
+            "even_odd_choice": even_odd_choice,
+            "low_high_choice": low_high_choice,
+            "dozens_choice": dozens_choice,
+            "inside_bet_choice": inside_bet_choice,
+            "straight_up_choice": straight_up_choice,
+            "split_choice": split_choice,
+            "street_choice": street_choice,
+            "corner_choice": corner_choice,
+            "six_line_choice": six_line_choice,
+>>>>>>> 2eb6322d106bdbd8f5d67e5d9820af9d22eea665
     }
 
     # --- Losowanie numeru na ruletce
@@ -489,7 +622,11 @@ def roulette_spin(roulette):
     while is_running:
         x = nums[current_pos % len(nums)]
         time.sleep(delay)
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 2eb6322d106bdbd8f5d67e5d9820af9d22eea665
         print(f"\r---[{x}]---", end="")
 
         if delay <= 0.1:
@@ -612,7 +749,13 @@ def evaluate_dozens(dozens_choice, draw_result, bet_amount):
     elif dozens_choice == 1:
 
         if 1 <= draw_result <= 12:
+<<<<<<< HEAD
             return win_message(bet_amount * 2)
+=======
+            print(f"WYGRANA! +${bet_amount}")
+            print()
+            return bet_amount * 2
+>>>>>>> 2eb6322d106bdbd8f5d67e5d9820af9d22eea665
 
         else:
             return lose_message(bet_amount)
@@ -620,7 +763,13 @@ def evaluate_dozens(dozens_choice, draw_result, bet_amount):
     elif dozens_choice == 2:
 
         if 13 <= draw_result <= 24:
+<<<<<<< HEAD
             return win_message(bet_amount * 2)
+=======
+            print(f"WYGRANA! +${bet_amount}")
+            print()
+            return bet_amount * 2
+>>>>>>> 2eb6322d106bdbd8f5d67e5d9820af9d22eea665
 
         else:
             return lose_message(bet_amount)
@@ -628,6 +777,7 @@ def evaluate_dozens(dozens_choice, draw_result, bet_amount):
     else:
 
         if 25 <= draw_result <= 36:
+<<<<<<< HEAD
             return win_message(bet_amount * 2)
 
         else:
@@ -701,6 +851,58 @@ def evaluate_six_line(six_line_choice, draw_result, bet_amount):
     else:
 
         return lose_message(bet_amount)
+=======
+            print(f"WYGRANA! +${bet_amount}")
+            print()
+            return bet_amount * 2
+
+        else:
+            print(f"PORAŻKA -${bet_amount}")
+            print()
+            return -bet_amount
+            
+            
+    # --- Ocena wyniku losowania Straight up
+    
+def evaluate_straight_up(straight_up_choice, draw_result, bet_amount):
+
+    
+    if straight_up_choice == draw_result:
+      print(f"WYGRANA! +${bet_amount}")
+      print()
+      return bet_amount * 35
+
+    else:
+        print(f"PORAŻKA -${bet_amount}")
+        print()
+        return -bet_amount
+    		
+    
+    # --- Ocena wyniku losowania Split
+    
+def evaluate_split():
+    return 0
+    
+    
+    # --- Ocena wyniku losowania Street
+    
+def evaluate_street():
+    return 0
+    
+    # --- Ocena wyniku losowania Corner
+    
+def evaluate_corner():
+    return 0 
+    
+    # --- Ocena wyniku losowania Six line
+    
+def evaluate_six_line():
+    return 0
+    
+    
+        
+	
+>>>>>>> 2eb6322d106bdbd8f5d67e5d9820af9d22eea665
 
     # --- Ocena wyniku losowania/zakładu (ruletka) ROUTER
 
@@ -746,7 +948,14 @@ def evaluate_roulette_bet(bet_data, spin_result):
         elif inside_bet_choice == 4:
             return evaluate_corner(corner_choice, draw_result, bet_amount)
         elif inside_bet_choice == 5:
+<<<<<<< HEAD
             return evaluate_six_line(six_line_choice, draw_result, bet_amount)
+=======
+            return evaluate_six_line()
+        
+            
+            
+>>>>>>> 2eb6322d106bdbd8f5d67e5d9820af9d22eea665
 
     # --- Ruletka [IN PROGRESS]
 
