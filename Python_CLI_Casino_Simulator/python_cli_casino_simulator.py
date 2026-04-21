@@ -433,8 +433,8 @@ def get_roulette_bet(wallet):
 
                 diff = max(six_line_choice) - min(six_line_choice)
 
-                if (six_line_choice[0] in nums_rows_map.keys() and six_line_choice[1] in nums_rows_map.keys()):
-                    if diff == 1 and len(six_line_choice) == 2:
+                if len(six_line_choice) == 2 and (six_line_choice[0] in nums_rows_map.keys() and six_line_choice[1] in nums_rows_map.keys()):
+                    if diff == 1:
                         break
 
                     else:
@@ -442,7 +442,7 @@ def get_roulette_bet(wallet):
                         print("Podaj poprawne wartości! Upewnij się, że obstawiasz sąsiednie rzędy!")
                 else:
 
-                    print("Podaj poprawne wartości! Upewnij się, że rzędy na które obstawiasz są między 1 i 12!")
+                    print("Podaj poprawne wartości! Upewnij się, że rzędy na które obstawiasz są między 1 i 12 i że obstawiasz odpowiednią liczbę rzędów!")
 
 
     while True:
