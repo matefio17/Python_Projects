@@ -3,18 +3,21 @@
 import time
 import shutil
 import logging
+import socket
+import platform
 
 
 
 # Data
 
-DISK_PATH = "C:\\"
+DISK_PATH = "/" if platform.system() != "Windows" else r"C:\\"
 
 MIN_FREE_PCT_WARNING = 20
 MIN_FREE_PCT_CRITICAL = 5
 GB = 1024 ** 3
 CHECK_INTERVAL_SECONDS = 120
-
+LOG_FILE = "disk_health.log"
+HOSTNAME = socket.gethostname()
 
 # Logging
 
@@ -24,7 +27,7 @@ logging.basicConfig(
     level=logging.INFO,
     format=LOG_FORMAT,
     handlers=[
-        logging.FileHandler("disk_health.log"),
+        logging.FileHandler(LOG_FILE),
         logging.StreamHandler()
     	]
 )
@@ -53,16 +56,31 @@ def check_status(free_space_pct):
         status = "OK"
     return status
 
+def build_message(status, used_space_gb, total_space_gb, free_space_gb, free_space_pct):
 
-        
-def logging_process(status, used_space_gb, total_space_gb, free_space_pct, free_space_gb):
     match status:
         case "CRITICAL":
-            logging.critical("%s - Disk almost full. == Current usage - %.2fGB/%.2fGB. == Only %.2f%%, (%.2fGB) of free space left.", DISK_PATH, used_space_gb, total_space_gb, free_space_pct, free_space_gb)
+           note = "Disk almost full"
         case "WARNING":
-            logging.warning("%s - Low disk space. == Current usage - %.2fGB/%.2fGB. == Only %.2f%% (%.2fGB) of free space left.", DISK_PATH, used_space_gb, total_space_gb, free_space_pct, free_space_gb)
+            note = "Low disk space"
         case _:
-            logging.info("%s - Disk space OK. == Current usage - %.2fGB/%.2fGB. == %.2f%% (%.2fGB) of free space left.", DISK_PATH, used_space_gb, total_space_gb, free_space_pct, free_space_gb)
+            note = "Disk space OK"
+
+    message = "STATUS: %s | HOSTNAME: %s | DISK: %s | NOTE: %s | USED: %.2fGB/%.2fGB | FREE: %.2fGB (%.2f%%)" %(status, HOSTNAME, DISK_PATH, note, used_space_gb, total_space_gb, free_space_gb, free_space_pct)
+
+
+    return message
+
+        
+def log_status(status, used_space_gb, total_space_gb, free_space_pct, free_space_gb, message):
+
+    match status:
+        case "CRITICAL":
+            logging.critical(message)
+        case "WARNING":
+            logging.warning(message)
+        case _:
+            logging.info(message)
         
 # Main loop
 def main():
@@ -71,8 +89,9 @@ def main():
         while True:
             used_space_gb, total_space_gb, free_space_pct, free_space_gb = get_disk_usage()
             status = check_status(free_space_pct)
+            message = build_message(status, used_space_gb, total_space_gb, free_space_gb, free_space_pct)
             if previous_status is None or status != previous_status:
-                logging_process(status, used_space_gb, total_space_gb, free_space_pct, free_space_gb)
+                log_status(status, used_space_gb, total_space_gb, free_space_pct, free_space_gb, message)
                 previous_status = status
             time.sleep(CHECK_INTERVAL_SECONDS)
     except FileNotFoundError:
@@ -85,8 +104,8 @@ def main():
         logging.error("ERROR: Problem with metric collection (total capacity).")
     except KeyboardInterrupt:
         logging.info("Program stopped by user.")
-    except Exception:
-        logging.error("ERROR: Unexpected error.")
+    except Exception as e:
+        logging.error("ERROR: Unexpected error: %s", e)
 
 
 if __name__ == "__main__":
