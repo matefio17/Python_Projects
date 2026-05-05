@@ -14,6 +14,7 @@ Projekt ewoluuje w kierunku lekkiego narzędzia typu **system health monitor / l
 - [Instalacja i uruchomienie](#-instalacja-i-uruchomienie)
 - [Konfiguracja](#-konfiguracja)
 - [Struktura logów](#-struktura-logów)
+- [Konfiguracja Discord](#-konfiguracja-discord)
 - [Obsługa błędów](#-obsługa-błędów)
 - [Plany rozwoju (Roadmap)](#-plany-rozwoju-roadmap)
 
@@ -51,6 +52,13 @@ Projekt ewoluuje w kierunku lekkiego narzędzia typu **system health monitor / l
 - **Obsługa błędów systemowych**  
   Stabilność działania w przypadku problemów OS lub uprawnień.
 
+- **Integracja z Discord (Webhooks) 🔔**  
+  Natychmiastowe powiadomienia o zmianie stanu dysku wysyłane bezpośrednio na kanał Discord.
+  
+- **Bezpieczna konfiguracja**  
+  Separacja wrażliwych danych (Webhook URL) od logiki programu dzięki wykorzystaniu zewnętrznego pliku `secrets.py`.
+
+
 ---
 
 ## 🧠 Architektura
@@ -65,7 +73,8 @@ flowchart TD
     C --> D{status zmieniony?}
     D -- Tak --> E[build_message]
     E --> F[log_status]
-    F --> G[sleep]
+    F --> H[notify_discord]
+    H --> G[sleep]
     D -- Nie --> G
     G --> B
 ```
@@ -137,6 +146,16 @@ Przykład:
 
 ---
 
+## 🔑 Konfiguracja Discord
+
+Aby otrzymywać powiadomienia:
+1. Utwórz Webhook w ustawieniach swojego serwera Discord.
+2. Utwórz w folderze głównym projekt plik `secrets.py`.
+3. Dodaj do niego następującą linię:
+   ```python
+   DISCORD_WEBHOOK_URL = "TWÓJ_URL_WEBHOOKA_TUTAJ"
+---
+
 ## ⚠️ Obsługa błędów
 
 Skrypt obsługuje następujące klasy problemów:
@@ -156,8 +175,8 @@ Każdy błąd jest logowany z odpowiednim poziomem ważności.
 
 ### Etap 1: Integracje alertów
 
+* [x] Webhook (Discord)
 * [ ] Email notifications (SMTP)
-* [ ] Webhook (Discord)
 
 ### Etap 2: Rozszerzenie monitoringu
 
