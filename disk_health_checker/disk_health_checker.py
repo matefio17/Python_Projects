@@ -5,12 +5,12 @@ import shutil
 import logging
 import socket
 import platform
-
-
+import requests
+from secrets import DISCORD_WEBHOOK_URL
 
 # Data
 
-DISK_PATH = "/" if platform.system() != "Windows" else r"C:\\"
+DISK_PATH = "/" if platform.system() != "Windows" else "C:\\"
 
 MIN_FREE_PCT_WARNING = 20
 MIN_FREE_PCT_CRITICAL = 5
@@ -72,7 +72,7 @@ def build_message(status, used_space_gb, total_space_gb, free_space_gb, free_spa
     return message
 
         
-def log_status(status, used_space_gb, total_space_gb, free_space_pct, free_space_gb, message):
+def log_status(status, message):
 
     match status:
         case "CRITICAL":
@@ -82,6 +82,21 @@ def log_status(status, used_space_gb, total_space_gb, free_space_pct, free_space
         case _:
             logging.info(message)
         
+        
+def notify_discord(message):
+    
+    discord_message = {
+        "content": message
+    }        
+
+    
+    try:
+        response = requests.post(DISCORD_WEBHOOK_URL, json=discord_message, timeout=10)
+        logging.info("Discord Webhook sent properly!")
+    except requests.exceptions.RequestException as e:
+        logging.error("ERROR: Discord request error: %s", e)
+
+
 # Main loop
 def main():
     previous_status = None
@@ -91,8 +106,9 @@ def main():
             status = check_status(free_space_pct)
             message = build_message(status, used_space_gb, total_space_gb, free_space_gb, free_space_pct)
             if previous_status is None or status != previous_status:
-                log_status(status, used_space_gb, total_space_gb, free_space_pct, free_space_gb, message)
+                log_status(status, message)
                 previous_status = status
+                notify_discord(message)
             time.sleep(CHECK_INTERVAL_SECONDS)
     except FileNotFoundError:
         logging.error("ERROR: Missing file.")
@@ -110,4 +126,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
