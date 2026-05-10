@@ -197,7 +197,7 @@ Każdy błąd jest logowany z odpowiednim poziomem ważności.
 
 ## 🚀 Plany rozwoju (Roadmap)
 
-### Etap 1: Integracje alertów
+### Etap 1: Wdrożenie 
 * [x] Wdrożenie jako usługa serwerowa
 
 ### Etap 2: Integracje alertów
