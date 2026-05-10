@@ -1,0 +1,11 @@
+[Unit]
+Description=Disk Health Checker
+After=network.target # najpierw startuje sieć a potem skrypt
+
+[Service]
+ExecStart=/usr/bin/python3 /home/matefio17/projekt/scripts/disk_health_checker.py
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target

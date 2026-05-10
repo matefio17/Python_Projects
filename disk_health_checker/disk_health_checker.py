@@ -29,7 +29,7 @@ logging.basicConfig(
     handlers=[
         logging.FileHandler(LOG_FILE),
         logging.StreamHandler()
-    	]
+    ]
 )
 
 
@@ -38,42 +38,46 @@ logging.basicConfig(
 def get_disk_usage():
     total, used, free = shutil.disk_usage(DISK_PATH)
 
-    
     free_space_pct = ((free / total) * 100)
     free_space_gb = free / GB
     total_space_gb = total / GB
     used_space_gb = used / GB
-		  
+
     return used_space_gb, total_space_gb, free_space_pct, free_space_gb
-    
+
 
 def check_status(free_space_pct):
     if free_space_pct < MIN_FREE_PCT_CRITICAL:
-        status = "CRITICAL" 
+        status = "CRITICAL"
     elif free_space_pct < MIN_FREE_PCT_WARNING:
-        status = "WARNING"    
-    else: 
+        status = "WARNING"
+    else:
         status = "OK"
     return status
 
-def build_message(status, used_space_gb, total_space_gb, free_space_gb, free_space_pct):
 
+def build_message(status, used_space_gb, total_space_gb, free_space_gb, free_space_pct):
     match status:
         case "CRITICAL":
-           note = "Disk almost full"
+            note = "Disk almost full"
         case "WARNING":
             note = "Low disk space"
         case _:
             note = "Disk space OK"
 
-    message = "STATUS: %s | HOSTNAME: %s | DISK: %s | NOTE: %s | USED: %.2fGB/%.2fGB | FREE: %.2fGB (%.2f%%)" %(status, HOSTNAME, DISK_PATH, note, used_space_gb, total_space_gb, free_space_gb, free_space_pct)
-
+    message = "STATUS: %s | HOSTNAME: %s | DISK: %s | NOTE: %s | USED: %.2fGB/%.2fGB | FREE: %.2fGB (%.2f%%)" % (status,
+                                                                                                                 HOSTNAME,
+                                                                                                                 DISK_PATH,
+                                                                                                                 note,
+                                                                                                                 used_space_gb,
+                                                                                                                 total_space_gb,
+                                                                                                                 free_space_gb,
+                                                                                                                 free_space_pct)
 
     return message
 
-        
-def log_status(status, message):
 
+def log_status(status, message):
     match status:
         case "CRITICAL":
             logging.critical(message)
@@ -81,15 +85,13 @@ def log_status(status, message):
             logging.warning(message)
         case _:
             logging.info(message)
-        
-        
+
+
 def notify_discord(message):
-    
     discord_message = {
         "content": message
-    }        
+    }
 
-    
     try:
         response = requests.post(DISCORD_WEBHOOK_URL, json=discord_message, timeout=10)
         logging.info("Discord Webhook sent properly!")

@@ -13,6 +13,7 @@ Projekt ewoluuje w kierunku lekkiego narzędzia typu **system health monitor / l
 - [Wymagania](#-wymagania)
 - [Instalacja i uruchomienie](#-instalacja-i-uruchomienie)
 - [Konfiguracja](#-konfiguracja)
+- [Wdrożenie (Systemd Service)](#-wdrożenie-systemd-service)
 - [Struktura logów](#-struktura-logów)
 - [Konfiguracja Discord](#-konfiguracja-discord)
 - [Obsługa błędów](#-obsługa-błędów)
@@ -117,6 +118,29 @@ python disk_health_checker.py
 
 ---
 
+## 🚀 Wdrożenie (Systemd Service)
+
+
+
+Skrypt został skonfigurowany jako usługa systemowa, aby zapewnić mu standard klasy produkcyjnej.
+
+
+
+- Daemonizacja: Skrypt działa w tle jako serwis `disk_health_checker.service`.
+
+- Automatyzacja: Dodano regułę `Restart=always` oraz autostart po uruchomieniu sieci (`After=network.target`).
+
+- Izolacja: Proces jest zarządzany bezpośrednio przez systemowy menedżer zadań (systemd).
+
+
+
+- Ciągłość (24/7): Monitor działa bez przerwy, nawet po restarcie serwera lub zamknięciu sesji SSH.
+
+- Niezawodność: W razie niespodziewanego błędu aplikacji, system automatycznie spróbuje ją zrestartować.
+
+- Monitoring: Łatwy dostęp do logów i statusu przez `systemctl status` oraz `journalctl`.
+---
+
 ## 🛠️ Konfiguracja
 
 Główne parametry systemu znajdują się w sekcji konfiguracji:
@@ -174,21 +198,24 @@ Każdy błąd jest logowany z odpowiednim poziomem ważności.
 ## 🚀 Plany rozwoju (Roadmap)
 
 ### Etap 1: Integracje alertów
+* [x] Wdrożenie jako usługa serwerowa
+
+### Etap 2: Integracje alertów
 
 * [x] Webhook (Discord)
 * [ ] Email notifications (SMTP)
 
-### Etap 2: Rozszerzenie monitoringu
+### Etap 3: Rozszerzenie monitoringu
 
 * [ ] Obsługa wielu dysków / mount pointów
 * [ ] Historia zużycia (trend analysis)
 
-### Etap 3: Konfiguracja i skalowanie
+### Etap 4: Konfiguracja i skalowanie
 
 * [ ] config.json / .env support
 * [ ] CLI arguments (argparse)
 
-### Etap 4: Observability upgrade
+### Etap 5: Observability upgrade
 
 * [ ] eksport metryk (np. Prometheus format)
 * [ ] dashboard HTML
